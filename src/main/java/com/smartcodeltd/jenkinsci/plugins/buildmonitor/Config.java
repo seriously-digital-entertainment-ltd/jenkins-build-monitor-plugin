@@ -16,12 +16,10 @@ public class Config {
     public Comparator<Job<?, ?>> getOrder() {
         return getOrElse(order, new ByName());
     }
-
     public void setOrder(Comparator<Job<?, ?>> order) {
         this.order = order;
     }
 
-<<<<<<< HEAD
     public enum ChangeSetVisualizationType {
         Hidden,
         LastOrNextBuild,
@@ -46,17 +44,12 @@ public class Config {
         this.buildTimeVisualization = buildTimeVisualization;
     }
 
-=======
->>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("order", order.getClass().getSimpleName())
-<<<<<<< HEAD
                 .add("changeSetVisualization", changeSetVisualization)
                 .add("buildTimeVisualization", buildTimeVisualization)
-=======
->>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
                 .toString();
     }
 
@@ -79,9 +72,6 @@ public class Config {
     }
 
     private Comparator<Job<?, ?>> order;
-<<<<<<< HEAD
     private ChangeSetVisualizationType changeSetVisualization;
     private BuildTimeVisualizationType buildTimeVisualization;
-=======
->>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
 }
