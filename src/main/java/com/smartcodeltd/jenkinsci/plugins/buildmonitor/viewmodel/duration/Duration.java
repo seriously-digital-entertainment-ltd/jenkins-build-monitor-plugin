@@ -14,7 +14,7 @@ abstract public class Duration {
         return duration > otherDuration.toLong();
     }
 
-    public long toLong() {
+    private long toLong() {
         return duration;
     }
 }
