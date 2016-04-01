@@ -90,11 +90,11 @@ public class JobView {
     @JsonProperty
     public String estimatedTimeLeft() {
         Duration estimatedDuration = lastCompletedBuild().estimatedDuration();
-        Duration timeElapsedSince = lastCompletedBuild().timeElapsedSince();
-        if (estimatedDuration == null || timeElapsedSince == null)
+        Duration elapsedTime = lastCompletedBuild().elapsedTime();
+        if (estimatedDuration == null || elapsedTime == null)
             return formatted(null);
 
-        long timeLeft = estimatedDuration.toLong() - timeElapsedSince.toLong();
+        long timeLeft = estimatedDuration.toLong() - elapsedTime.toLong();
         return formatted(new HumanReadableDuration(timeLeft >= 0 ? timeLeft : 0));
     }
 
