@@ -33,23 +33,11 @@ public class Config {
         this.changeSetVisualization = changeSetVisualization;
     }
 
-    public enum BuildTimeVisualizationType {
-        CountUp,
-        ShowRemaining
-    }
-    public BuildTimeVisualizationType getBuildTimeVisualization() {
-        return getOrElse(buildTimeVisualization, BuildTimeVisualizationType.CountUp);
-    }
-    public void setBuildTimeVisualization(BuildTimeVisualizationType buildTimeVisualization) {
-        this.buildTimeVisualization = buildTimeVisualization;
-    }
-
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("order", order.getClass().getSimpleName())
                 .add("changeSetVisualization", changeSetVisualization)
-                .add("buildTimeVisualization", buildTimeVisualization)
                 .toString();
     }
 
@@ -73,5 +61,4 @@ public class Config {
 
     private Comparator<Job<?, ?>> order;
     private ChangeSetVisualizationType changeSetVisualization;
-    private BuildTimeVisualizationType buildTimeVisualization;
 }
