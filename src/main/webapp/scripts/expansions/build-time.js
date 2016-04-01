@@ -20,7 +20,7 @@ directive('buildTime', [function () {
                         '<span class="estimated" title="Typical build time">{{project.estimatedDuration}}</span>',
                     '</div>',
                     '<div data-ng-show="!!project.buildTimeCountsDown">',
-                        '<span class="estimated" title="Estimated remaining time">Estimated remaining time {{project.estimatedTimeLeft}}</span>',
+                        '<span class="estimated" title="Estimated remaining time">{{project.estimatedTimeLeft}}</span>',
                     '</div>',
                 '</div>',
 
