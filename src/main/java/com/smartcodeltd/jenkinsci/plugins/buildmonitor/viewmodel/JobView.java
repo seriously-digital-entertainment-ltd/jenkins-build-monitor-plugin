@@ -197,6 +197,7 @@ public class JobView {
         return lastCompletedBuild().knownFailures();
     }
 
+<<<<<<< HEAD
     @JsonProperty
     public boolean shouldVisualizeChangeLog() {
         if (job.getLastBuild() == null) // no builds whatsoever
@@ -247,6 +248,8 @@ public class JobView {
         return config.getBuildTimeVisualization() == Config.BuildTimeVisualizationType.ShowRemaining;
     }
 
+=======
+>>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
     // todo track by job.hashCode messes up the animation
     @JsonProperty @Override
     public int hashCode() {
@@ -277,6 +280,6 @@ public class JobView {
             return new NullBuildView();
         }
 
-        return BuildView.of(build, config, augmentor, relative, systemTime);
+        return BuildView.of(job.getLastBuild(), config, augmentor, relative, systemTime);
     }
 }

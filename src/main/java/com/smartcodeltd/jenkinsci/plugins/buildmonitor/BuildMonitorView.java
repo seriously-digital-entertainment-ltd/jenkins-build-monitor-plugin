@@ -80,6 +80,7 @@ public class BuildMonitorView extends ListView {
         return currentConfig().getOrder().getClass().getSimpleName();
     }
 
+<<<<<<< HEAD
     @SuppressWarnings("unused") // used in the configure-entries.jelly form
     public String changeSetVisualization() {
         return currentConfig().getChangeSetVisualization().name();
@@ -90,6 +91,8 @@ public class BuildMonitorView extends ListView {
         return currentConfig().getBuildTimeVisualization().name();
     }
 
+=======
+>>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
     private static final BuildMonitorInstallation installation = new BuildMonitorInstallation();
 
     @SuppressWarnings("unused") // used in index.jelly
@@ -106,14 +109,16 @@ public class BuildMonitorView extends ListView {
     protected void submit(StaplerRequest req) throws ServletException, IOException, FormException {
         super.submit(req);
 
+        String requestedOrdering = req.getParameter("order");
+
         title = req.getParameter("title");
 
-        String requestedOrdering = req.getParameter("order");
         try {
             currentConfig().setOrder(orderIn(requestedOrdering));
         } catch (Exception e) {
             throw new FormException("Can't order projects by " + requestedOrdering, "order");
         }
+<<<<<<< HEAD
 
         String requestedChangeSetVisualization = req.getParameter("changeSetVisualization");
         try {
@@ -128,6 +133,8 @@ public class BuildMonitorView extends ListView {
         } catch (Exception e) {
             throw new FormException("Can't visualize build time by " + requestedBuildTimeVisualization, "buildTimeVisualization");
         }
+=======
+>>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
     }
 
     /**

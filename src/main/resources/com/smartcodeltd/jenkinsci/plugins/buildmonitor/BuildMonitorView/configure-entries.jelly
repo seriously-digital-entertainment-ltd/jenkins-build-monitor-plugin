@@ -65,6 +65,7 @@
     </select>
   </f:entry>
 
+<<<<<<< HEAD
   <f:entry title="${%Change Set}">
     <select name="changeSetVisualization" class="setting-input">
       <f:option value="Hidden" selected='${it.changeSetVisualization()=="Hidden"}'>${%Hidden}</f:option>
@@ -81,6 +82,8 @@
     </select>
   </f:entry>
 
+=======
+>>>>>>> parent of bafb92d... Merge pull request #1 from tommikiviniemi-srs/show-changeset
   </f:section>
 
   <script>
