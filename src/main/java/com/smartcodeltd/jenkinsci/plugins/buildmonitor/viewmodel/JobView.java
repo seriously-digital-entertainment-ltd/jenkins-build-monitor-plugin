@@ -89,13 +89,10 @@ public class JobView {
 
     @JsonProperty
     public String estimatedTimeLeft() {
-        Duration estimatedDuration = lastCompletedBuild().estimatedDuration();
-        Duration elapsedTime = lastCompletedBuild().elapsedTime();
-        if (estimatedDuration == null || elapsedTime == null)
-            return formatted(null);
-
-        long timeLeft = estimatedDuration.toLong() - elapsedTime.toLong();
-        return formatted(new HumanReadableDuration(timeLeft >= 0 ? timeLeft : 0));
+        float progress = lastBuild().progress() / 100.0f;
+        long estimatedDuration = lastBuild().estimatedDuration().toLong();
+        HumanReadableDuration estimatedTimeLeft = new HumanReadableDuration(estimatedDuration - (long)(progress*estimatedDuration));
+        return formatted(estimatedTimeLeft);
     }
 
     private String formatted(Duration duration) {
