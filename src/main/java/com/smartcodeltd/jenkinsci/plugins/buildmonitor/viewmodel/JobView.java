@@ -7,6 +7,7 @@ import com.smartcodeltd.jenkinsci.plugins.buildmonitor.facade.RelativeLocation;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.readability.Lister;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.readability.Pluraliser;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.viewmodel.duration.Duration;
+import com.smartcodeltd.jenkinsci.plugins.buildmonitor.viewmodel.duration.HumanReadableDuration;
 import com.smartcodeltd.jenkinsci.plugins.buildmonitor.viewmodel.plugins.BuildAugmentor;
 import hudson.model.Job;
 import hudson.model.Result;
@@ -84,6 +85,14 @@ public class JobView {
     @JsonProperty
     public String timeElapsedSinceLastBuild() {
         return formatted(lastCompletedBuild().timeElapsedSince());
+    }
+
+    @JsonProperty
+    public String estimatedTimeLeft() {
+        float progress = lastBuild().progress() / 100.0f;
+        long estimatedDuration = lastBuild().estimatedDuration().toLong();
+        HumanReadableDuration estimatedTimeLeft = new HumanReadableDuration(estimatedDuration - (long)(progress*estimatedDuration));
+        return formatted(estimatedTimeLeft);
     }
 
     private String formatted(Duration duration) {
@@ -185,6 +194,56 @@ public class JobView {
         return lastCompletedBuild().knownFailures();
     }
 
+    @JsonProperty
+    public boolean shouldVisualizeChangeLog() {
+        if (job.getLastBuild() == null) // no builds whatsoever
+            return false;
+
+        if (config.getChangeSetVisualization() == Config.ChangeSetVisualizationType.Hidden)
+            return false;
+
+        if (config.getChangeSetVisualization() == Config.ChangeSetVisualizationType.NextBuildOnly && !lastBuild().isRunning())
+            return false;
+
+        return true;
+    }
+
+    @JsonProperty
+    public List<String> changeLog() {
+        BuildViewModel buildForChangeLogFetching = getBuildForChangeLogFetching();
+        return buildForChangeLogFetching != null ? buildForChangeLogFetching.changeLog() : null;
+    }
+
+    @JsonProperty
+    public boolean hasChangeLogComputed() {
+        BuildViewModel buildForChangeLogFetching = getBuildForChangeLogFetching();
+        return buildForChangeLogFetching != null && buildForChangeLogFetching.hasChangeLogComputed();
+    }
+
+    @JsonProperty
+    public boolean isChangeLogForUpcomingBuild() {
+        BuildViewModel buildForChangeLogFetching = getBuildForChangeLogFetching();
+        return buildForChangeLogFetching != null && buildForChangeLogFetching.isRunning();
+    }
+
+    private BuildViewModel getBuildForChangeLogFetching() {
+        switch (config.getChangeSetVisualization()) {
+            case LastOrNextBuild:
+            case NextBuildOnly:
+                return lastBuild();
+            case LastBuildOnly:
+                return lastCompletedBuild();
+            case Hidden:
+            default:
+                return null;
+        }
+    }
+
+    @JsonProperty
+    public boolean buildTimeCountsDown() {
+        return config.getBuildTimeVisualization() == Config.BuildTimeVisualizationType.ShowRemaining;
+    }
+
     // todo track by job.hashCode messes up the animation
     @JsonProperty @Override
     public int hashCode() {
@@ -215,6 +274,6 @@ public class JobView {
             return new NullBuildView();
         }
 
-        return BuildView.of(job.getLastBuild(), config, augmentor, relative, systemTime);
+        return BuildView.of(build, config, augmentor, relative, systemTime);
     }
 }
